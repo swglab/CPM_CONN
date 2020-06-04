@@ -24,7 +24,6 @@ function [R_posneg,P_posneg,behav_pred_posneg]=CPM_internal(all_mats,all_behav,d
 
 %% Settings
 FD_thr=.15; % cutoff for removing subjects based on FD
-subplotting=0; % output individual subject plots
 global globalDataDir; % this must be set within startup.m
 datapath=[globalDataDir];
 
