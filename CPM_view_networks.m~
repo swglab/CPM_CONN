@@ -1,14 +1,11 @@
-function CPM_view_networks(pos_mask,neg_mask,atlas,dataset,norm)
+function CPM_view_networks(pos_mask,neg_mask,atlas,norm)
 
 % Extract top intra- and inter-network contributors to a CPM
 % Inputs:
-% pos_mask (required)   : binary positive mask (matrix)
-% neg_mask (required)   : binary negative mask (matrix)
-% atlas (required)      : 1=Shen268, 2=Schaefer300 (7Networks), 3=Schaefer300 (17Networks)
-% dataset (required)    : name of dataset folder name
-% norm (optional)       : 0 = no normalization; 1 = normalize # of features per network pair by total # of network pairs
-% Outputs:
-% saves figure within cpm_results/figs
+% pos_mask  : binary positive mask (matrix)
+% neg_mask  : binary negative mask (matrix)
+% atlas     : 1=Shen268, 2=Schaefer300 (7Networks), 3=Schaefer300 (17Networks)
+% norm      : 0 = no normalization; 1 = normalize # of features per network pair by total # of network pairs
 
 %% Settings
 nfeatures=5; % # of top feature types to extract
@@ -16,7 +13,6 @@ pos_colors=cbrewer('seq','Reds',256);
 neg_colors=cbrewer('seq','Blues',256);
 
 global globalDataDir;
-datapath=[globalDataDir];
 if nargin<4 || isempty(norm)
    	norm=0;
 end
@@ -140,11 +136,8 @@ imagesc(plot_pos_count);
 colormap(ax(1),pos_colors); 
 c=colorbar('Location','southoutside');
 c.FontSize=14;
-if norm==1
- c.Label.String='Percentage of Edges';   
-elseif norm==0
 c.Label.String='Number of Edges';
-end
+%title({[' '];[' '];['CPM Positive Features'];[' ']},'Fontweight','normal');
 hold on;
 cut=1; cut2=-1;
 for i=1:nx+1
@@ -181,9 +174,10 @@ c=colorbar('Location','southoutside');
 c.FontSize=14;
 if norm==1
  c.Label.String='Percentage of Edges';   
-elseif norm==0
+elseif norm==2
 c.Label.String='Number of Edges';
 end
+%title({[' '];[' '];['CPM Negative Features'];[' ']},'Fontweight','normal');
 hold on;
 cut=1; cut2=-1;
 for i=1:nx+1
@@ -199,9 +193,6 @@ set(gca,'yticklabel',[net_names_plot(1:length(net_names_plot))])
 set(gca,'TickLength',[0 0])
 set(gca,'FontSize',12,'FontName','Arial');
 xtickangle(90);
-mkdir([datapath filesep dataset filesep 'cpm_results' filesep 'figs']);
-savepath=[datapath filesep dataset filesep 'cpm_results' filesep 'figs'];
-print([savepath filesep 'feature_contributions_' atlas_name],'-r600','-dpng');  
 pause; close;
 
 

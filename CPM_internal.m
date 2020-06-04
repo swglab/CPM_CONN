@@ -1,4 +1,4 @@
-function [R_posneg,P_posneg,behav_pred_posneg]=CPM_individuals(all_mats,all_behav,dataset,r_method,pthresh,part_var,motion_var,outname,train_mode)
+function [R_posneg,P_posneg,behav_pred_posneg]=CPM_internal(all_mats,all_behav,dataset,r_method,pthresh,part_var,motion_var,outname,train_mode)
 
 % Connectome-based predictive modeling: internal (within-dataset) validation 
 % written by Aaron Kucyi, Northeastern University
@@ -6,8 +6,7 @@ function [R_posneg,P_posneg,behav_pred_posneg]=CPM_individuals(all_mats,all_beha
 % Inputs:
 % all_mats (required)   : ROI x ROI x trials FC matrix (or single vector for one ROI/edge)
 % all_behav (required)  : behavioral score vector
-% dataset (required)    : name of dataset folder name (within parent folder
-%                       specified in startup.m)
+% dataset (required)    : name of dataset folder name
 % r_method (optional)   : correlation method (1 = Pearson (default); 2 = spearman;
 %                       3 = robust regress; 4 = Pearson partial using part_var;
 %                       5 = Spearman partial using part_var          
@@ -229,7 +228,7 @@ save([savepath filesep 'pos_mask_' outname],'pos_mask');
 save([savepath filesep 'neg_mask_' outname],'neg_mask');
 save([savepath filesep 'pos_mask_' outname '.txt'],'pos_mask','-ascii');
 save([savepath filesep 'neg_mask_' outname '.txt'],'neg_mask','-ascii');
-R_posneg=[]; P_posneg=[];
+R_posneg=[]; P_posneg=[]; behav_pred_pos=[];
 end
 
 % find positive and negative edges with overlap across 90% of all folds, save
