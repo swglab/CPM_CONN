@@ -3,8 +3,8 @@ Connectome-based predictive modeling analysis with CONN toolbox outputs
 
 Setup (before using this code):
 
-1. Preprocess your dataset in Conn, including the extraction of ROIs from an atlas file (see utils) selected as an "atlas file" within Conn
-2. Extract head motion (mean frame-wise displacement; FD) in Conn (Setup > Covariates 1st level > Covariate tools > Compute new/derived first-level covariates > Compute 'FD_jenkinson')
+1. Preprocess your dataset in Conn, including extraction of ROIs from an atlas file (see utils) selected as an "atlas file" within Conn
+2. Extract head motion as frame-wise displacement in Conn (Setup > Covariates 1st level > Covariate tools > Compute new/derived first-level covariates > Compute 'FD_jenkinson')
 3. In startup.m file, specify the parent directory of your project/dataset folders. Example (change to your specific directory):
    global globalDataDir;
    globalDataDir='/work/swglab/Aaron/data';
