@@ -15,7 +15,9 @@ function [r_p_all,data]=CPM_external(all_mats,all_behav,mdl,pos_mask,neg_mask,pa
 % motion_var (optional) : head motion as FD (if included, removes subjects with FD>0.15)
 
 % OUTPUTS:
-% 
+% r_p_all = r (Pearson), p (Pearson), rho (Spearman), p (Spearman)
+%           [plus repeat for partial correlations if selected]
+% data: predicted behav (column 1), network strength (column 2)
 
 %% Settings
 FD_thr=.15; % cutoff for remoing subjects based on FD
@@ -91,9 +93,9 @@ end
 %% organize output (R and P values)
 if ~isempty(part_var)
 r_p_all=[R_posneg P_posneg spearman_R_posneg spearman_P_posneg partial_R_posneg partial_P_posneg partial_rho_posneg partial_rho_P_posneg];
-data=[all_behav behav_pred_posneg' test_sum_posneg'];
+data=[behav_pred_posneg' test_sum_posneg'];
 else
 r_p_all=[R_posneg P_posneg spearman_R_posneg spearman_P_posneg];
-data=[all_behav behav_pred_posneg' test_sum_posneg'];
+data=[behav_pred_posneg' test_sum_posneg'];
 end
 
