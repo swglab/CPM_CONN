@@ -3,7 +3,7 @@ function [R_posneg,P_posneg,behav_pred_posneg]=CPM_internal(all_mats,all_behav,d
 % Connectome-based predictive modeling: internal (within-dataset) validation 
 % written by Aaron Kucyi, Northeastern University
 % adapted from Shen et al. (2017 Nature Protocols)
-% Inputs:
+% INPUTS:
 % all_mats (required)   : ROI x ROI x trials FC matrix (or single vector for one ROI/edge)
 % all_behav (required)  : behavioral score vector
 % dataset (required)    : name of dataset folder name
@@ -16,7 +16,7 @@ function [R_posneg,P_posneg,behav_pred_posneg]=CPM_internal(all_mats,all_behav,d
 % outname (optional)    : name for output files (default = 'test')
 % train_mode (optional) : 1 = do cross-validation (default); 2 = use all subjects for
 %                       training in a single fold and save linear regression parameters
-% Outputs:
+% OUTPUTS:
 % R_posneg              : r for predicted vs observed behav (pos-neg model)
 % P_posneg              : p for predicted vs observed behav (pos-neg model)
 % behav_pred_posneg     : vector of predicted behavior

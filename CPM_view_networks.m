@@ -1,13 +1,13 @@
 function CPM_view_networks(pos_mask,neg_mask,atlas,dataset,norm)
 
 % Extract top intra- and inter-network contributors to a CPM
-% Inputs:
+% INPUTS:
 % pos_mask (required)   : binary positive mask (matrix)
 % neg_mask (required)   : binary negative mask (matrix)
 % atlas (required)      : 1=Shen268, 2=Schaefer300 (7Networks), 3=Schaefer300 (17Networks)
 % dataset (required)    : name of dataset folder name
 % norm (optional)       : 0 = no normalization; 1 = normalize # of features per network pair by total # of network pairs
-% Outputs:
+% OUTPUTS:
 % saves figure within cpm_results/figs
 
 %% Settings
