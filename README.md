@@ -18,3 +18,5 @@ extract_CONN_atlas_FC.m: extract functional connectivity matrices from atlas and
 CPM_internal.m: runs CPM within a dataset using an input vector for the behavioral variable and an input 3D matrix for functional connectivity (node x node x subject).
 
 CPM_view_networks.m: can be used to view intra- and inter-network contributions to a pre-computed CPM positive and negative masks
+
+![test](https://github.com/swglab/CPM_CONN/blob/master/images/eg_feature_contributions.png)
