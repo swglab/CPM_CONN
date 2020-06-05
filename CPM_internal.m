@@ -1,4 +1,5 @@
-function [R_posneg,P_posneg,pred_observed_posneg]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname,train_mode)
+function [R_posneg,P_posneg,pred_observed_posneg]=CPM_internal(all_mats,all_behav,dataset,...
+    kfolds,r_method,pthresh,part_var,motion_var,outname,train_mode)
 
 % Connectome-based predictive modeling: internal (within-dataset) validation 
 % written by Aaron Kucyi, Northeastern University
@@ -27,6 +28,9 @@ function [R_posneg,P_posneg,pred_observed_posneg]=CPM_internal(all_mats,all_beha
 FD_thr=.15; % cutoff for removing subjects based on FD
 global globalDataDir; % this must be set within startup.m
 datapath=[globalDataDir];
+if nargin<5 || isempty(r_method)
+    r_method=1;
+end
 
 %% remove subjects with missing behavioral data
 missing=isnan(all_behav);
@@ -56,9 +60,6 @@ end
 no_sub=length(all_behav);
 if nargin<4 || isempty(kfolds)
     kfolds=no_sub;
-end
-if nargin<5 || isempty(r_method)
-    r_method=1;
 end
 if nargin<6 || isempty(pthresh)
     pthresh=0.01;
