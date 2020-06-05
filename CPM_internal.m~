@@ -29,15 +29,7 @@ global globalDataDir; % this must be set within startup.m
 datapath=[globalDataDir];
 
 %% remove subjects with missing behavioral data
-missing=isnan(all_behav);
-all_mats(:,:,missing)=[];
-if ~isempty(motion_var) 
-    motion_var(missing)=[];
-end
-if ~isempty(part_var) 
-    part_var(missing)=[];
-end
-all_behav(missing)=[];
+
 
 %% remove high-motion subjects
 if ~isempty(motion_var) 
