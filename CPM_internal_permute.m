@@ -76,7 +76,7 @@ end
 
 % permutation test for significance for each subject
        R_permute=[]; 
-        for it=2:no_iterations
+        for it=2:no_iter
            display(['Performing iteration ' num2str(it)]); 
            % Permute labels
            if r_method==1 || r_method==2
