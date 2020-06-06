@@ -18,7 +18,7 @@ neg_colors=cbrewer('seq','Blues',256);
 
 global globalDataDir;
 datapath=[globalDataDir];
-if nargin<4 || isempty(norm)
+if nargin<5 || isempty(norm)
    	norm=0;
 end
 %% Load network labels

@@ -1,4 +1,4 @@
-function [R_posneg,R_permute]=CPM_internal_permute(all_mats,all_behav,dataset,...
+function [p,R_posneg,R_permute]=CPM_internal_permute(all_mats,all_behav,dataset,...
     kfolds,r_method,pthresh,part_var,motion_var,outname,no_iter)
 
 % Permutation test for CPM_internal.m
@@ -24,6 +24,12 @@ function [R_posneg,R_permute]=CPM_internal_permute(all_mats,all_behav,dataset,..
 FD_thr=.15; % cutoff for removing subjects based on FD
 if nargin<5 || isempty(r_method)
     r_method=1;
+end
+if nargin<7 || isempty(part_var)
+    part_var=[];
+end
+if nargin<8 || isempty(motion_var)
+    motion_var=[];
 end
 
 %% remove subjects with missing behavioral data
@@ -59,12 +65,6 @@ end
 if nargin<6 || isempty(pthresh)
     pthresh=0.01;
 end
-if nargin<7 || isempty(part_var)
-    part_var=[];
-end
-if nargin<8 || isempty(motion_var)
-    motion_var=[];
-end
 if nargin<9 || isempty(outname)
     outname='test';
 end
@@ -92,7 +92,13 @@ end
             R_permute=[R_permute; R_posneg_shuffled];
         end
         
-% assess significance for each subject
+% assess significance 
+true_prediction_r=R_posneg;
+prediction_r=[true_prediction_r; R_permute];
+sorted_prediction_r=sort(prediction_r('descend'));
+position_true=find(sorted_prediction_r==true_prediction_r);
+p=position_true/no_iter;
+
 % for i=1:size(R_permute,2)
 %     true_prediction_r(i)=R_posneg(i);
 %     prediction_r=[true_prediction_r(i); R_permute(:,i)];
