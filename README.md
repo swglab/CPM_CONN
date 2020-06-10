@@ -13,9 +13,13 @@ Connectome-based predictive modeling analysis with CONN toolbox outputs
    
 **Functions:**
 
-*extract_CONN_atlas_FC.m*: extract functional connectivity matrices from atlas and mean FD, then merge across subjects (for input to CPM_internal.m)
+*extract_CONN_atlas_FC.m*: extracts functional connectivity matrices (from atlas) and mean FD, then merges across subjects (for input to CPM_internal.m)
 
-*CPM_internal.m*: runs CPM within a dataset using an input vector for the behavioral variable and an input 3D matrix for functional connectivity (node x node x subject).
+*CPM_internal.m*: runs CPM within a dataset (kfold, leave one out, or use entire dataset to define and save model parameters)
+
+*CPM_internal_permute.m*: runs permutation test to assess significance
+
+*CPM_external.m*: test CPM (defined by CPM_internal.m output) in external data
 
 *CPM_view_networks.m*: can be used to view intra- and inter-network contributions to a pre-computed CPM positive and negative masks
 
