@@ -21,19 +21,18 @@ if nargin<5 || isempty(norm)
    	norm=0;
 end
 %% Load network labels
-global globalMaskDir
 if atlas==1
 atlas_name='Shen268';
-net_labels=importdata([globalMaskDir filesep 'Shen268' filesep 'Lookup_shen268']);
+net_labels=importdata(['Lookup_shen268']);
 net_labels=net_labels(:,7);
 net_names={'SMN';'[]'; 'CO'; 'AUD'; 'DMN';'[]'; 'VIS'; 'FPN';...
     'SAL'; 'SUB'; 'VAN'; 'DAN'; 'Unknown'};
 elseif atlas==2
-net_labels=importdata([globalMaskDir filesep 'Schaefer' filesep 'net_label300.mat']);
+net_labels=importdata(['Schaefer_label300_7networks.mat']);
 net_names={'DMN'; 'DAN'; 'SAL'; 'FPCN'; 'LIM'; 'VIS'; 'SMN'};
 atlas_name='Schaefer300';
 elseif atlas==3 
-net_labels=importdata([globalMaskDir filesep 'Schaefer' filesep 'net_label300_17networks.mat']);
+net_labels=importdata(['Schaefer_label300_17networks.mat']);
 net_names={'VIS_{A}'; 'VIS_{B}'; 'SMN_{A}'; 'SMN_{B}'; 'DAN_{A}'; 'DAN_{B}'; 'SAL_{A}'; 'SAL_{B}';...
  'LIM_{A}'; 'LIM_{B}'; 'FPCN_{B}'; 'FPCN_{A}'; 'FPCN_{C}'; 'DMN_{A}'; 'DMN_{B}'; 'DMN_{C}'; 'TP'};
 atlas_name='Schaefer17Networks';
