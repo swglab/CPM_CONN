@@ -33,7 +33,6 @@ for i=1:no_sub
     sub_FC_all=cat(3,sub_FC_all,sub_FC);
 end
 
-% EDIT HERE
 % LME for each intra- and inter-network pair vs behavior
 lmm_behav=all_behav;
    for i=1:size(sub_FC,1)    
@@ -43,9 +42,9 @@ lmm_behav=all_behav;
             corr_mat(i,j)=corr(all_behav,curr_edge);
             % LME
             lmm_variables=[]; lmm_table=[];
-            lmm_variables=[all_behav curr_edge];
-            lmm_table=table(lmm_variables(:,1),lmm_variables(:,2),lmm_variables(:,3),...
-             'VariableNames',{'subject','behav','FC'});
+%            lmm_variables=[sub_code all_behav curr_edge];
+%            lmm_table=table(lmm_variables(:,1),lmm_variables(:,2),lmm_variables(:,3),...
+%             'VariableNames',{'subject','behav','FC'});
 %             lme=fitlme(lmm_table,'behav~FC+(1|subject)');
 %             lme_anova=anova(lme,'DFmethod','satterthwaite');
 %             beta=lme.fixedEffects; beta=beta(2);
