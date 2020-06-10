@@ -272,11 +272,9 @@ end
 mkdir([datapath filesep dataset filesep 'cpm_results']);
 savepath=[datapath filesep dataset filesep 'cpm_results'];
 if train_mode==2
-    save([savepath filesep 'coeff_posneg_' outname],'fit_posneg');
-    save([savepath filesep 'coeff_pos_' outname],'fit_pos');
-    save([savepath filesep 'coeff_neg_' outname],'fit_neg');
-    save([savepath filesep 'pos_mask_' outname],'pos_mask'); 
-    save([savepath filesep 'neg_mask_' outname],'neg_mask');
+    cpm.fit_posneg=fit_posneg; cpm.fit_pos=fit_pos; cpm.fit_neg=fit_neg;
+    cpm.pos_mask=pos_mask; cpm.neg_mask=neg_mask;
+    save([savepath filesep outname 'cpm'],'cpm');
     save([savepath filesep 'pos_mask_' outname '.txt'],'pos_mask','-ascii');
     save([savepath filesep 'neg_mask_' outname '.txt'],'neg_mask','-ascii');
     R_posneg=[]; P_posneg=[]; behav_pred_pos=[];

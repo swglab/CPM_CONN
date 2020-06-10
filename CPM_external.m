@@ -1,4 +1,4 @@
-function [r_p_all,data]=CPM_external(all_mats,all_behav,mdl,pos_mask,neg_mask,part_var,motion_var)
+function [r_p_all,data]=CPM_external(all_mats,all_behav,cpm,part_var,motion_var)
 
 % Test CPM in external dataset 
 % written by Aaron Kucyi, Northeastern University
@@ -6,11 +6,7 @@ function [r_p_all,data]=CPM_external(all_mats,all_behav,mdl,pos_mask,neg_mask,pa
 % all_mats (required)   : ROI x ROI x trials FC matrix (or single vector
 %                       for one ROI/edge) from test dataset
 % all_behav (required)  : behavioral score vector from test dataset
-% mdl (required)        : Coefficient fits for linear model (two values)
-%                       from training dataset (e.g. from fit_posneg file)
-% pos_mask (required)   : mask for model's significant positive features
-%                       from training dataset
-% neg_mask (required)   : mask for model's significant negative features
+% cpm (required)        : structure containing coefficient fits (fit_posneg), pos_mask and neg_mask 
 %                       from training dataset
 % part_var (optional)   : partial corr variable (leave blank if not using)
 % motion_var (optional) : head motion as FD (if included, removes subjects with FD>0.15)
@@ -25,10 +21,10 @@ FD_thr=.15; % cutoff for remoing subjects based on FD
 
 %% Defaults
 global globalDataDir;
-if nargin<6 || isempty(part_var)
+if nargin<4 || isempty(part_var)
    part_var=[]; 
 end
-if nargin<7 || isempty(motion_var)
+if nargin<5 || isempty(motion_var)
    motion_var=[]; 
 end
 
@@ -57,12 +53,12 @@ curr_sub_trials=1;
 for leftout=1:no_sub
     if ndims(all_mats)==3
     test_mat=all_mats(:,:,leftout);
-    test_sumpos(leftout)=nansum(nansum(test_mat.*pos_mask))/2;
-    test_sumneg(leftout)=nansum(nansum(test_mat.*neg_mask))/2;
+    test_sumpos(leftout)=nansum(nansum(test_mat.*cpm.pos_mask))/2;
+    test_sumneg(leftout)=nansum(nansum(test_mat.*cpm.neg_mask))/2;
     test_sum_posneg(leftout)=squeeze(test_sumpos(leftout))-squeeze(test_sumneg(leftout));
-    behav_pred_posneg(leftout)=mdl(1)*test_sum_posneg(leftout) + mdl(2);
-    behav_pred_pos(leftout)=mdl(1)*test_sumpos(leftout) + mdl(2);
-    behav_pred_neg(leftout)=mdl(1)*test_sumneg(leftout) + mdl(2); 
+    behav_pred_posneg(leftout)=cpm.fit_posneg(1)*test_sum_posneg(leftout) + cpm.fit_posneg(2);
+    behav_pred_pos(leftout)=cpm.fit_pos(1)*test_sumpos(leftout) + cpm.fit_pos(2);
+    behav_pred_neg(leftout)=cpm.fit_neg(1)*test_sumneg(leftout) + cpm.fit_neg(2); 
     end
     curr_sub_trials=curr_sub_trials+no_sub;
 end
