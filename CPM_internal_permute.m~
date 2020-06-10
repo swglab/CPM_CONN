@@ -8,9 +8,7 @@ function [p,R_posneg,R_permute]=CPM_internal_permute(all_mats,all_behav,dataset,
 % all_mats (required)   : ROI x ROI x trials FC matrix (or single vector for one ROI/edge)
 % all_behav (required)  : behavioral score vector
 % dataset (required)    : name of dataset folder name
-% kfolds (optional)     : number of cross-validation folds (default = leaveone out)
-%                       NOTE: if not using leave-one-out, computes average
-%                       of 100 iterations
+% kfolds (optional)     : number of cross-validation folds (default = leave one out) 
 % r_method (optional)   : correlation method (1 = Pearson (default); 2 = spearman;
 %                       3 = robust regress; 4 = Pearson partial using part_var;
 %                       5 = Spearman partial using part_var          
@@ -20,9 +18,7 @@ function [p,R_posneg,R_permute]=CPM_internal_permute(all_mats,all_behav,dataset,
 % outname (optional)    : name for output files (default = 'test')
 % no_iter (optional)    : number of iterations for permute test (default=1000)
 % OUTPUTS:
-% p                     : p value for permutation test
-% R_posneg              : real R value (mean of 100 iterations if using kfold)
-% R_permute             : distribution of null R values
+% p
 
 %% Settings
 FD_thr=.15; % cutoff for removing subjects based on FD
@@ -78,11 +74,8 @@ end
 
 if kfolds==no_sub % for leave-one-out, get one value
 [R_posneg]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname);
-else % for kfolds, do 100 iterations and get avg value
-    for i=1:100
-[R_posneg(i)]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname);    
-    end
-    R_posneg=mean(R_posneg);
+else
+    
 end
 
 % permutation test for significance for each subject
