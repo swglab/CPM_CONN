@@ -1,10 +1,9 @@
-function CPM_view_networks(pos_mask,neg_mask,atlas,dataset,norm)
+function CPM_view_networks(cpm,atlas,dataset,norm)
 
 % Extract top intra- and inter-network contributors to a CPM
 % written by Aaron Kucyi, Northeastern University
 % INPUTS:
-% pos_mask (required)   : binary positive mask (matrix)
-% neg_mask (required)   : binary negative mask (matrix)
+% cpm (required)        : structure containing pos_mask and neg_mask
 % atlas (required)      : 1=Shen268, 2=Schaefer300 (7Networks), 3=Schaefer300 (17Networks)
 % dataset (required)    : name of dataset folder name
 % norm (optional)       : 0 = no normalization; 1 = normalize # of features per network pair by total # of network pairs
@@ -52,7 +51,7 @@ for i=1:length(net_names)
 end
 
 %% Pos mask
-[x_pos,y_pos]=find(pos_mask==1);
+[x_pos,y_pos]=find(cpm.pos_mask==1);
 xy_pos_labels=[net_labels(x_pos) net_labels(y_pos)];
 
 % count # of network-pair feature types
@@ -65,7 +64,7 @@ end
 pos_count=tril(pos_count);
 
 %% neg mask
-[x_neg,y_neg]=find(neg_mask==1);
+[x_neg,y_neg]=find(cpm.neg_mask==1);
 xy_neg_labels=[net_labels(x_neg) net_labels(y_neg)];
 
 % count # of network-pair feature types
