@@ -5,7 +5,7 @@ function [R_posneg,P_posneg,pred_observed_posneg]=CPM_internal(all_mats,all_beha
 % written by Aaron Kucyi, Northeastern University
 % adapted from Shen et al. (2017 Nature Protocols)
 % INPUTS:
-% all_mats (required)   : ROI x ROI x trials FC matrix (or single vector for one ROI/edge)
+% all_mats (required)   : ROI x ROI x subjects FC matrix (or single vector for one ROI/edge)
 % all_behav (required)  : behavioral score vector
 % dataset (required)    : name of dataset folder name
 % kfolds (optional)     : number of cross-validation folds (default = leave one out) 
