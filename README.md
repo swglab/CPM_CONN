@@ -21,6 +21,8 @@ Connectome-based predictive modeling analysis with CONN toolbox outputs
 
 *CPM_external.m*: test CPM (defined by CPM_internal.m output) in external data
 
-*CPM_view_networks.m*: can be used to view intra- and inter-network contributions to a pre-computed CPM positive and negative masks
+*CPM_view_networks.m*: view intra- and inter-network contributions to positive and negative edges of a pre-computed CPM 
+
+*univariate_SchaeferYeo.m*: correlate behavior vs. connectivity between all intra- and inter-network pairs in the Schaefer atlas; apply FDR correction
 
 ![test](https://github.com/swglab/CPM_CONN/blob/master/images/eg_feature_contributions.png)
