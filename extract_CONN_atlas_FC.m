@@ -21,7 +21,6 @@ end
 mkdir([datapath filesep dataset filesep 'Group']); 
 
 % load conn directory
-%a=strfind(conn_dir,filesep);
 conn_dir=CONN_x.folders.data(1:end-5);
 mean_FD=NaN(length(sublist),size(CONN_x.Setup.functional{1,1},2));
 
