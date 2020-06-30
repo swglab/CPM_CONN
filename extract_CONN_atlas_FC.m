@@ -1,10 +1,10 @@
-function extract_CONN_atlas_FC(atlas,sublist,conn_dir,dataset)
+function extract_CONN_atlas_FC(sublist,CONN_x,atlas,dataset)
 
 % Extract functional connectivity matrices from an atlas within a CONN project
 % INPUTS:
-% atlas (required)      : name of atlas within CONN project (e.g.'Schaefer300')
 % sublist (required)    : cell array with folders names of all subjects included in CONN project
-% conn_dir (required)   : full path to Conn project directory
+% CONN_x (required)   : full path to Conn project directory
+% atlas (required)      : name of atlas within CONN project (e.g.'Schaefer300')
 % dataset (required)    : name of dataset folder name
 % OUTPUTS:
 % within Extracted_ts_Conn subfolder for each subject: FC matrices
@@ -20,11 +20,10 @@ for i=1:length(sublist)
 end
 mkdir([datapath filesep dataset filesep 'Group']); 
 
-% load conn project file
-a=strfind(conn_dir,filesep);
-pre_conn_dir=conn_dir(1:a(end));
-post_conn_dir=conn_dir(a(end)+1:length(conn_dir));
-load([pre_conn_dir post_conn_dir '.mat']);
+% load conn directory
+%a=strfind(conn_dir,filesep);
+conn_dir=CONN_x.folders.data(1:end-5);
+mean_FD=NaN(length(sublist),size(CONN_x.Setup.functional{1,1},2));
 
 % extract time series
 for i=1:length(sublist)
@@ -40,22 +39,29 @@ for i=1:length(sublist)
             end
         end
         
-    % extract FD (Jenkinson)
+    % extract FD (Jenkinson) for each run    
+    for k=1:size(CONN_x.Setup.functional{1,1},2)
     b=[];
-    FD_dir=CONN_x.Setup.functional{1,i}{1,1}{1,3}.fname; % edit for >1 run?   
+    FD_dir=CONN_x.Setup.functional{1,i}{1,k}{1,3}(1).fname; % edit for >1 run?   
     b=strfind(FD_dir,filesep);
     fd_dir=FD_dir(1:b(end));
     fd=dir([fd_dir  '*FDjenkinson*']);
     fd=load([fd_dir fd.name]); 
     fd=fd.R;
-    mean_FD=mean(fd(2:end)); mean_FD=mean_FD';
-
+    mean_FD(i,k)=mean(fd(2:end)); 
+    end
+    
     % save subject data    
     save([datapath filesep dataset filesep sublist{i} filesep 'Extracted_ts_Conn' filesep 'mean_FD'],'mean_FD');
     save([datapath filesep dataset filesep sublist{i} filesep 'Extracted_ts_Conn' filesep atlas '.txt'],'atlas_ts','-ascii');   
-    display(['Done subject ' num2str(i) ' run ' num2str(j)]);
+    display(['Done subject ' num2str(i)]);
     end
 end
+
+% save FD (each run and mean across runs)
+save([datapath filesep dataset filesep 'Group' filesep 'meanFD_runs'],'mean_FD');
+mean_FD=mean(mean_FD,2);
+save([datapath filesep dataset filesep 'Group' filesep 'meanFD'],'mean_FD');
 
 % merge across subjects
 display(['Merging subjects : see output at ' datapath '/' dataset '/Group']);
@@ -64,12 +70,8 @@ for i=1:length(sublist)
     atlas_ts=[]; 
     atlas_ts=importdata([globalDataDir filesep dataset filesep sublist{i} '/Extracted_ts_Conn' filesep atlas '.txt']);
     atlas_all_mats(:,:,i)=fisherz(corrcoef(atlas_ts));
-    load([globalDataDir filesep dataset filesep sublist{i} '/Extracted_ts_Conn' filesep 'mean_FD.mat']);
-    mean_FD_all(i)=mean_FD;
 end
-mean_FD=mean_FD_all';
 
 % save concatenated FC matrices and FD
 save([datapath filesep dataset filesep 'Group' filesep atlas '_all_mats'],'atlas_all_mats');
-save([datapath filesep dataset filesep 'Group' filesep 'mean_FD','mean_FD']);
 
