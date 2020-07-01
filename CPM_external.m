@@ -14,7 +14,7 @@ function [r_p_all,data]=CPM_external(all_mats,all_behav,cpm,part_var,motion_var)
 % OUTPUTS:
 % r_p_all = r (Pearson), p (Pearson), rho (Spearman), p (Spearman)
 %           [plus repeat for partial correlations if selected]
-% data: predicted behav (column 1), network strength (column 2)
+% data: predicted behav (column 1), observed behav (column 2), network strength (column 3)
 
 %% Settings
 FD_thr=.15; % cutoff for remoing subjects based on FD
@@ -80,19 +80,12 @@ if ~isempty(part_var)
    [partial_rho_posneg,partial_rho_P_posneg]=partialcorr(behav_pred_posneg',all_behav,part_var,'type','Spearman','rows','pairwise'); 
 end
 
-% if isempty(univariate)==0
-%     [R_uni,P_uni]=corr(univariate,all_behav,'rows','pairwise');
-%     [spearman_R_uni,spearman_P_uni]=corr(univariate,all_behav,'type','Spearman','rows','pairwise');
-%     [partial_R_uni,partial_P_uni]=partialcorr(univariate,all_behav,partial_var,'rows','pairwise');
-%     [partial_rho_uni,partial_rho_P_uni]=partialcorr(univariate,all_behav,partial_var,'type','Spearman','rows','pairwise');
-% end
-
-%% organize output (R and P values)
+%% organize output (R and P values, predicted vs observed vs network strength)
 if ~isempty(part_var)
 r_p_all=[R_posneg P_posneg spearman_R_posneg spearman_P_posneg partial_R_posneg partial_P_posneg partial_rho_posneg partial_rho_P_posneg];
-data=[behav_pred_posneg' test_sum_posneg'];
+data=[behav_pred_posneg' all_behav test_sum_posneg'];
 else
 r_p_all=[R_posneg P_posneg spearman_R_posneg spearman_P_posneg];
-data=[behav_pred_posneg' test_sum_posneg'];
+data=[behav_pred_posneg' all_behav test_sum_posneg'];
 end
 

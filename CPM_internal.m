@@ -97,6 +97,9 @@ randinds=randperm(no_sub);
 ksample=floor(no_sub/kfolds);
 pred_observed_posneg=[]; pred_observed_pos=[]; pred_observed_neg=[];
 %% Run cross-validation folds
+if train_mode==2
+   kfolds=1; 
+end
 for leftout=1:kfolds
     if train_mode==1 
         display(['Running fold ' num2str(leftout)]);   
@@ -274,7 +277,7 @@ savepath=[datapath filesep dataset filesep 'cpm_results'];
 if train_mode==2
     cpm.fit_posneg=fit_posneg; cpm.fit_pos=fit_pos; cpm.fit_neg=fit_neg;
     cpm.pos_mask=pos_mask; cpm.neg_mask=neg_mask;
-    save([savepath filesep outname 'cpm'],'cpm');
+    save([savepath filesep outname '_cpm'],'cpm');
     save([savepath filesep 'pos_mask_' outname '.txt'],'pos_mask','-ascii');
     save([savepath filesep 'neg_mask_' outname '.txt'],'neg_mask','-ascii');
     R_posneg=[]; P_posneg=[]; behav_pred_pos=[];
