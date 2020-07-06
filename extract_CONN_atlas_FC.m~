@@ -6,17 +6,14 @@ function extract_CONN_atlas_FC(sublist,CONN_x,atlas,dataset,run_tag)
 % CONN_x (required)     : Conn project .mat structure
 % atlas (required)      : name of atlas within CONN project (e.g.'Schaefer300')
 % dataset (required)    : name of dataset folder name
-% run_tag (optional)    : string specifying which run to use (when there are multiple runs in a session)
+% run_tag (optional)    : string specifying which run to use (if multiple (when there are multiple runs in a session)
 % OUTPUTS:
 % within Extracted_ts_Conn subfolder for each subject: FC matrices
-% within [dataset]/Group folder: saves .mat file with 3D matrix (node x node x subject) r; also saves vector of FD (head motion)
+% within [dataset/Group folder: saves .mat file with 3D matrix (node x node x subject) r; also saves vector of FD (head motion)
 
 %% Settings
 global globalDataDir; % this must be set within startup.m
 datapath=[globalDataDir];
-if nargin<5 || isempty(run_tag)
-    run_tag=[];
-end
 
 % make output directories
 for i=1:length(sublist)
@@ -48,7 +45,7 @@ for i=1:length(sublist)
     FD_dir=CONN_x.Setup.functional{1,i}{1,k}{1,3}(1).fname; % edit for >1 run?   
     b=strfind(FD_dir,filesep);
     fd_dir=FD_dir(1:b(end));
-    fd=dir([fd_dir  '*FDjenkinson*' run_tag '*']);
+    fd=dir([fd_dir  '*FDjenkinson*']);
     if size(fd,1)==1
     fd=load([fd_dir fd.name]); 
     else
@@ -66,9 +63,9 @@ for i=1:length(sublist)
 end
 
 % save FD (each run and mean across runs)
-save([datapath filesep dataset filesep 'Group' filesep 'meanFD_runs' run_tag],'mean_FD');
+save([datapath filesep dataset filesep 'Group' filesep 'meanFD_runs'],'mean_FD');
 mean_FD=mean(mean_FD,2);
-save([datapath filesep dataset filesep 'Group' filesep 'meanFD' run_tag],'mean_FD');
+save([datapath filesep dataset filesep 'Group' filesep 'meanFD'],'mean_FD');
 
 % merge across subjects
 display(['Merging subjects : see output at ' datapath '/' dataset '/Group']);
