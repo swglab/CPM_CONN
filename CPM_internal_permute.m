@@ -10,7 +10,8 @@ function [p,R_posneg,R_permute]=CPM_internal_permute(all_mats,all_behav,dataset,
 % dataset (required)    : name of dataset folder name
 % kfolds (optional)     : number of cross-validation folds (default = leaveone out)
 %                       NOTE: if not using leave-one-out, computes average
-%                       of 100 iterations
+%                       of 120 iterations (Varoquaux et al. 2017
+%                       Neuroimage)
 % r_method (optional)   : correlation method (1 = Pearson (default); 2 = spearman;
 %                       3 = robust regress; 4 = Pearson partial using part_var;
 %                       5 = Spearman partial using part_var          
@@ -78,8 +79,8 @@ end
 
 if kfolds==no_sub % for leave-one-out, get one value
 [R_posneg]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname);
-else % for kfolds, do 100 iterations and get avg value
-    for i=1:100
+else % for kfolds, do 120 iterations and get avg value
+    for i=1:120
 [R_posneg(i)]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname);    
     end
     R_posneg=mean(R_posneg);

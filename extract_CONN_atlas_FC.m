@@ -3,7 +3,7 @@ function extract_CONN_atlas_FC(sublist,CONN_x,atlas,dataset)
 % Extract functional connectivity matrices from an atlas within a CONN project
 % INPUTS:
 % sublist (required)    : cell array with folders names of all subjects included in CONN project
-% CONN_x (required)   : full path to Conn project directory
+% CONN_x (required)     : Conn project .mat structure
 % atlas (required)      : name of atlas within CONN project (e.g.'Schaefer300')
 % dataset (required)    : name of dataset folder name
 % OUTPUTS:
