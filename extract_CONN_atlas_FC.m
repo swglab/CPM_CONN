@@ -48,7 +48,11 @@ for i=1:length(sublist)
     FD_dir=CONN_x.Setup.functional{1,i}{1,k}{1,3}(1).fname; % edit for >1 run?   
     b=strfind(FD_dir,filesep);
     fd_dir=FD_dir(1:b(end));
+    if ~isempty(run_tag)
     fd=dir([fd_dir  '*FDjenkinson*' run_tag '*']);
+    else
+    fd=dir([fd_dir  '*FDjenkinson*']);    
+    end
     if size(fd,1)==1
     fd=load([fd_dir fd.name]); 
     else

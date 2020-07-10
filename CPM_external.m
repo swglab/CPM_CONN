@@ -10,7 +10,6 @@ function [r_p_all,data]=CPM_external(all_mats,all_behav,cpm,part_var,motion_var)
 %                       from training dataset
 % part_var (optional)   : partial corr variable (leave blank if not using)
 % motion_var (optional) : head motion as FD (if included, removes subjects with FD>0.15)
-
 % OUTPUTS:
 % r_p_all = r (Pearson), p (Pearson), rho (Spearman), p (Spearman)
 %           [plus repeat for partial correlations if selected]
