@@ -1,4 +1,4 @@
-function [R_posneg,P_posneg,pred_observed_posneg]=CPM_internal(all_mats,all_behav,dataset,...
+function [R,P,pred_observed_posneg]=CPM_internal(all_mats,all_behav,dataset,...
     kfolds,r_method,pthresh,part_var,motion_var,outname,train_mode)
 
 % Connectome-based predictive modeling: internal (within-dataset) validation 
@@ -19,8 +19,8 @@ function [R_posneg,P_posneg,pred_observed_posneg]=CPM_internal(all_mats,all_beha
 % train_mode (optional) : 1 = do cross-validation (default); 2 = use all subjects for
 %                       training in a single fold and save linear regression parameters
 % OUTPUTS:
-% R_posneg              : r for predicted vs observed behav (pos-neg model)
-% P_posneg              : p for predicted vs observed behav (pos-neg model)
+% R                     : r values for predicted vs observed behav (R_pos R_neg R_pos-neg)
+% P                     : p values for predicted vs observed behav (P_pos P_neg P_pos-neg)
 % pred_observed_posneg  : predicted behav (column 1) observed behav (column 2)
 % positive and negative masks are saved in cpm_results within dataset folder
 
@@ -269,6 +269,8 @@ if train_mode==1
     [R_posneg, P_posneg] = partialcorr(pred_observed_posneg(:,1),pred_observed_posneg(:,2),pred_observed_posneg(:,3),'type','Spearman','rows','pairwise');
     end
 end
+R=[R_pos R_neg R_posneg];
+P=[P_pos P_neg P_posneg];
 
 % save linear regression parameters (when using all subjects for training),
 % positive mask and negative mask
