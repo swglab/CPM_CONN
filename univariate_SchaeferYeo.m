@@ -88,7 +88,7 @@ lmm_behav=all_behav;
              F_lme(i,j)=F;
         end
    end
-   p_lme=tril(p_lme);
+   p_lme=tril(p_uncorrected);
    p_lme(p_lme==0)=NaN;
    beta_lme=tril(beta_lme);
 

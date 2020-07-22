@@ -50,7 +50,7 @@ end
 % loop through test subjects
 curr_sub_trials=1;
 for leftout=1:no_sub
-    if ndims(all_mats)==3
+    if ndims(all_mats)>1
     test_mat=all_mats(:,:,leftout);
     test_sumpos(leftout)=nansum(nansum(test_mat.*cpm.pos_mask))/2;
     test_sumneg(leftout)=nansum(nansum(test_mat.*cpm.neg_mask))/2;
