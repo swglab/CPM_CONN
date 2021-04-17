@@ -1,4 +1,4 @@
-function [p,R_posneg,R_permute]=CPM_internal_permute(all_mats,all_behav,dataset,...
+function [p_all,R,R_permute_all]=CPM_internal_permute(all_mats,all_behav,dataset,...
     kfolds,r_method,pthresh,part_var,motion_var,outname,no_iter)
 
 % Permutation test for CPM_internal.m
@@ -78,16 +78,17 @@ if nargin<10 || isempty(no_iter)
 end
 
 if kfolds==no_sub % for leave-one-out, get one value
-[R_posneg]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname);
+[R]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname);
+R_pos=R(1); R_neg=R(2); R_posneg=R(3);
 else % for kfolds, do 120 iterations and get avg value
     for i=1:120
-[R_posneg(i)]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname);    
+        [R]=CPM_internal(all_mats,all_behav,dataset,kfolds,r_method,pthresh,part_var,motion_var,outname); 
+        R_pos(i)=R(1); R_neg(i)=R(2); R_posneg(i)=R(3);
     end
-    R_posneg=mean(R_posneg);
+    R_pos=mean(R_pos); R_neg=mean(R_neg); R_posneg=mean(R_posneg);
 end
-
 % permutation test for significance for each subject
-       R_permute=[]; 
+       R_permute_pos=[]; R_permute_neg=[]; R_permute_posneg=[];
         for it=2:no_iter
            display(['Performing iteration ' num2str(it)]); 
            % Permute labels
@@ -100,19 +101,30 @@ end
             new_behav = all_behav(new_order);
             new_partial = partial_var(new_order);
            end
-            [R_posneg_shuffled]=CPM_internal(all_mats,new_behav,'rand',kfolds,r_method,pthresh,part_var,motion_var);
-            R_permute=[R_permute; R_posneg_shuffled];
+            [R_shuffled]=CPM_internal(all_mats,new_behav,'rand',kfolds,r_method,pthresh,part_var,motion_var);
+            R_permute_pos=[R_permute_pos; R_shuffled(1)];
+            R_permute_neg=[R_permute_neg; R_shuffled(2)];
+            R_permute_posneg=[R_permute_posneg; R_shuffled(3)];
         end
         
 % assess significance 
-true_prediction_r=R_posneg;
-prediction_r=[true_prediction_r; R_permute];
-sorted_prediction_r=sort(prediction_r,'descend');
-position_true=find(sorted_prediction_r==true_prediction_r);
-p=position_true/no_iter;
+true_prediction_r_posneg=R_posneg;
+prediction_r_posneg=[true_prediction_r_posneg; R_permute_posneg];
+sorted_prediction_r_posneg=sort(prediction_r_posneg,'descend');
+position_true_posneg=find(sorted_prediction_r_posneg==true_prediction_r_posneg);
+p_posneg=position_true_posneg/no_iter;
 
+true_prediction_r_pos=R_pos;
+prediction_r_pos=[true_prediction_r_pos; R_permute_pos];
+sorted_prediction_r_pos=sort(prediction_r_pos,'descend');
+position_true_pos=find(sorted_prediction_r_pos==true_prediction_r_pos);
+p_pos=position_true_pos/no_iter;
 
+true_prediction_r_neg=R_neg;
+prediction_r_neg=[true_prediction_r_neg; R_permute_neg];
+sorted_prediction_r_neg=sort(prediction_r_neg,'ascend');
+position_true_neg=find(sorted_prediction_r_neg==true_prediction_r_neg);
+p_neg=position_true_neg/no_iter;
 
-
-
-
+p_all=[p_pos p_neg p_posneg];
+R_permute_all=[R_permute_pos, R_permute_neg, R_permute_posneg];

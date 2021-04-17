@@ -268,9 +268,9 @@ if train_mode==1
     [R_neg, P_neg] = partialcorr(pred_observed_neg(:,1),pred_observed_neg(:,2),pred_observed_neg(:,3),'type','Spearman','rows','pairwise');
     [R_posneg, P_posneg] = partialcorr(pred_observed_posneg(:,1),pred_observed_posneg(:,2),pred_observed_posneg(:,3),'type','Spearman','rows','pairwise');
     end
-end
 R=[R_pos R_neg R_posneg];
 P=[P_pos P_neg P_posneg];
+end
 
 % save linear regression parameters (when using all subjects for training),
 % positive mask and negative mask
@@ -282,7 +282,7 @@ if train_mode==2
     save([savepath filesep outname '_cpm'],'cpm');
     save([savepath filesep 'pos_mask_' outname '.txt'],'pos_mask','-ascii');
     save([savepath filesep 'neg_mask_' outname '.txt'],'neg_mask','-ascii');
-    R_posneg=[]; P_posneg=[]; behav_pred_pos=[];
+    R_posneg=[]; P_posneg=[]; behav_pred_pos=[]; R=[]; P=[];
 end
 
 % find positive and negative edges with overlap across 90% of all folds, save
