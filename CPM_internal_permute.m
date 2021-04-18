@@ -122,7 +122,7 @@ p_pos=position_true_pos/no_iter;
 
 true_prediction_r_neg=R_neg;
 prediction_r_neg=[true_prediction_r_neg; R_permute_neg];
-sorted_prediction_r_neg=sort(prediction_r_neg,'ascend');
+sorted_prediction_r_neg=sort(prediction_r_neg,'descend');
 position_true_neg=find(sorted_prediction_r_neg==true_prediction_r_neg);
 p_neg=position_true_neg/no_iter;
 
