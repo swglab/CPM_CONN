@@ -26,7 +26,7 @@ function [R,P,pred_obs]=CPM_internal(all_mats,all_behav,dataset,...
 % positive and negative masks are saved in cpm_results within dataset folder
 
 %% Settings
-FD_thr=.15; % cutoff for removing subjects based on FD
+FD_thr=.20; % cutoff for removing subjects based on FD
 global globalDataDir; % this must be set within startup.m
 datapath=[globalDataDir];
 if nargin<5 || isempty(r_method)
@@ -131,7 +131,7 @@ for leftout=1:kfolds
     end
     
     % correlate all edges with behavior (in training data)
-    if r_method==1 || r_method==4 || r_method==5 
+    if r_method==1 || r_method==4 
         if ndims(all_mats)==3
             [r_mat,p_mat]=corr(train_vcts',train_behav,'rows','pairwise');
             r_mat=reshape(r_mat,no_node,no_node);
@@ -139,7 +139,7 @@ for leftout=1:kfolds
         else % for single var
             [r_mat,p_mat]=corr(train_vcts,train_behav,'rows','pairwise');
         end
-    elseif r_method==2
+    elseif r_method==2 || r_method==5
         if ndims(all_mats)==3
             [r_mat,p_mat]=corr(train_vcts',train_behav,'type','Spearman','rows','pairwise');
             r_mat=reshape(r_mat,no_node,no_node);

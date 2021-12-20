@@ -26,7 +26,7 @@ function [p_all,R,R_permute_all]=CPM_internal_permute(all_mats,all_behav,dataset
 % R_permute             : distribution of null R values
 
 %% Settings
-FD_thr=.15; % cutoff for removing subjects based on FD
+FD_thr=.20; % cutoff for removing subjects based on FD
 if nargin<5 || isempty(r_method)
     r_method=1;
 end
@@ -99,7 +99,7 @@ end
             order = 1:length(all_behav);
             new_order = order(randperm(length(order)));
             new_behav = all_behav(new_order);
-            new_partial = partial_var(new_order);
+            new_partial = part_var(new_order);
            end
             [R_shuffled]=CPM_internal(all_mats,new_behav,'rand',kfolds,r_method,pthresh,part_var,motion_var);
             R_permute_pos=[R_permute_pos; R_shuffled(1)];
